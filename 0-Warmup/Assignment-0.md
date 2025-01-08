@@ -19,8 +19,12 @@
 
 3. Please provide a link to the repository you are using for this class.
 
-
+https://github.com/ts3566/cs283/
 
 4. Briefly describe what you want to get out of this class.
 
+I want to learn more about how code works intimately and improve my C skills.
+
 5. Briefly describe any concerns you might be having with being successful in this class (if any).
+
+My C skills are rusty.

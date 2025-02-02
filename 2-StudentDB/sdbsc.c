@@ -126,7 +126,6 @@ int add_student(int fd, int id, char *fname, char *lname, int gpa)
         printf(M_ERR_DB_ADD_DUP, id);
         return ERR_DB_OP;
     } else if (rc != SRCH_NOT_FOUND) {
-        // Some other error occurred (e.g., I/O error)
         printf(M_ERR_DB_READ);
         return ERR_DB_FILE;
     }
@@ -138,14 +137,13 @@ int add_student(int fd, int id, char *fname, char *lname, int gpa)
     mystudent.id = id;
     mystudent.gpa = gpa;
     strncpy(mystudent.fname, fname, sizeof(mystudent.fname) - 1);
-    mystudent.fname[sizeof(mystudent.fname) - 1] = '\0'; // Ensure null termination
+    mystudent.fname[sizeof(mystudent.fname) - 1] = '\0';
     strncpy(mystudent.lname, lname, sizeof(mystudent.lname) - 1);
-    mystudent.lname[sizeof(mystudent.lname) - 1] = '\0'; // Ensure null termination
+    mystudent.lname[sizeof(mystudent.lname) - 1] = '\0';
 
     // Seek to the calculated offset
     off_t lseek_result = lseek(fd, myoffset, SEEK_SET);
     if (lseek_result < 0) {
-        // Seek failed
         printf(M_ERR_DB_READ);
         return ERR_DB_FILE;
     }
@@ -153,7 +151,6 @@ int add_student(int fd, int id, char *fname, char *lname, int gpa)
     // Write the student record to the database
     ssize_t bytes_written = write(fd, &mystudent, STUDENT_RECORD_SIZE);
     if (bytes_written != STUDENT_RECORD_SIZE) {
-        // Write failed or incomplete write
         printf(M_ERR_DB_WRITE);
         return ERR_DB_FILE;
     }
@@ -191,11 +188,9 @@ int del_student(int fd, int id)
     student_t student;
     int rc = get_student(fd, id, &student);
     if (rc == SRCH_NOT_FOUND) {
-        // Student not found
         printf(M_STD_NOT_FND_MSG, id);
         return SRCH_NOT_FOUND;
     } else if (rc != NO_ERROR) {
-        // Some other error occurred (e.g., I/O error)
         printf(M_ERR_DB_READ);
         return ERR_DB_FILE;
     }
@@ -267,8 +262,6 @@ int count_db_records(int fd)
             printf(M_ERR_DB_READ);
             return ERR_DB_FILE;
         }
-
-        // Check if the record is valid (i.e., id is not 0)
         if (student.id != 0) {
             count++;
         }
@@ -341,8 +334,6 @@ int print_db(int fd)
             printf(M_ERR_DB_READ);
             return ERR_DB_FILE;
         }
-
-        // Check if the record is valid (i.e., id is not 0)
         if (student.id != 0) {
             // Print the header if it hasn't been printed yet
             if (!header_printed) {

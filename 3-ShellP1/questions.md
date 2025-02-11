@@ -16,11 +16,12 @@
 - One topic you should have found information on is "redirection". Please provide at least 3 redirection examples that we should implement in our custom shell, and explain what challenges we might have implementing them.
 
     > **Answer**:  We could implement the following standard redirections for our custom shell:
-    First, redirecting STDOUT to a file (ls > output.txt), which sends command output to a file. Challenges could be handling file permissions, managing file modes, and ensuring proper buffering.
-    
-    Second, redirecting STDERR to a file (ls /nonexistent 2> error.txt), which captures errors separately. Challenges include managing file ensuring errors don’t interfere with STDOUT, and handling concurrent output.
-    
-    Third, redirecting STDOUT and STDERR to the same file (ls /nonexistent > output.txt 2>&1), which combines both streams. Challenges include correct redirection order, and proper file descriptor duplication.
+    >
+    > First, redirecting STDOUT to a file (ls > output.txt), which sends command output to a file. Challenges could be handling file permissions, managing file modes, and ensuring proper buffering.
+    >
+    > Second, redirecting STDERR to a file (ls /nonexistent 2> error.txt), which captures errors separately. Challenges include managing file ensuring errors don’t interfere with STDOUT, and handling concurrent output.
+    >
+    > Third, redirecting STDOUT and STDERR to the same file (ls /nonexistent > output.txt 2>&1), which combines both streams. Challenges include correct redirection order, and proper file descriptor duplication.
 
 - You should have also learned about "pipes". Redirection and piping both involve controlling input and output in the shell, but they serve different purposes. Explain the key differences between redirection and piping.
 

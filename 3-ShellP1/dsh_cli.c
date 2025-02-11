@@ -50,7 +50,7 @@ int main()
     command_list_t clist;
 
     while (1) {
-        printf(SH_PROMPT);
+        printf("%s", SH_PROMPT);
         if (fgets(cmd_buff, ARG_MAX, stdin) == NULL) {
             printf("\n");
             break;

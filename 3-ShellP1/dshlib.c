@@ -32,8 +32,44 @@
  *  Standard Library Functions You Might Want To Consider Using
  *      memset(), strcmp(), strcpy(), strtok(), strlen(), strchr()
  */
-int build_cmd_list(char *cmd_line, command_list_t *clist)
-{
-    printf(M_NOT_IMPL);
-    return EXIT_NOT_IMPL;
+int build_cmd_list(char *cmd_line, command_list_t *clist) {
+    if (strlen(cmd_line) == 0) {
+        return WARN_NO_CMDS;
+    }
+    
+    char *token;
+    char *saveptr;
+    int cmd_count = 0;
+    
+    token = strtok_r(cmd_line, PIPE_STRING, &saveptr);
+    while (token != NULL) {
+        if (cmd_count >= CMD_MAX) {
+            return ERR_TOO_MANY_COMMANDS;
+        }
+        
+        while (isspace(*token)) token++;
+        char *end = token + strlen(token) - 1;
+        while (end > token && isspace(*end)) *end-- = '\0';
+        
+        if (strlen(token) >= EXE_MAX) {
+            return ERR_CMD_OR_ARGS_TOO_BIG;
+        }
+        char *arg_ptr = strchr(token, ' ');
+        if (arg_ptr) {
+            *arg_ptr = '\0';
+            arg_ptr++;
+            while (isspace(*arg_ptr)) arg_ptr++;
+            if (strlen(arg_ptr) >= ARG_MAX) {
+                return ERR_CMD_OR_ARGS_TOO_BIG;
+            }
+            strncpy(clist->commands[cmd_count].args, arg_ptr, ARG_MAX - 1);
+        }
+        
+        strncpy(clist->commands[cmd_count].exe, token, EXE_MAX - 1);
+        cmd_count++;
+        token = strtok_r(NULL, PIPE_STRING, &saveptr);
+    }
+    
+    clist->num = cmd_count;
+    return OK;
 }
